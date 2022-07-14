@@ -1,12 +1,29 @@
-# spectral-jsonapi-ruleset
+# frosting-spectral-jsonapi-ruleset
 
-![Node.js CI](https://github.com/jmlue42/spectral-jsonapi-ruleset/workflows/Node.js%20CI/badge.svg)
-![CodeQL](https://github.com/jmlue42/spectral-jsonapi-ruleset/workflows/CodeQL/badge.svg)
+**Forked from https://github.com/jmlue42/spectral-jsonapi-ruleset/**
 
 > A [Stoplight/Spectral](https://github.com/stoplightio/spectral) linting ruleset for the [JSON:API specification](https://jsonapi.org/format).
 
 ## Installation
-For ways to integrate this ruleset into your Spectral linting suite. See [Sharing & Distributing Rulesets](https://meta.stoplight.io/docs/spectral/docs/guides/7-sharing-rulesets.md) at <https://meta.stoplight.io/>
+For ways to integrate this ruleset into your Spectral linting suite. See [Sharing & Distributing Rulesets](https://meta.stoplight.io/docs/spectral/ZG9jOjI1MTky-sharing-and-distributing-rulesets#filesystem) at <https://meta.stoplight.io/>
+
+### Steps
+
+#### Fetch Ruleset
+Add this ruleset as a git submodule in your project:
+
+`git submodule add https://github.com/some-org/style-guide`
+
+#### Add Spectal Config
+Add a file called `.spectral.yml` to your project, it's contents are the following:
+
+```yaml
+extends:
+  ./frosting-spectral-jsonapi-ruleset/jsonapi-ruleset.yaml
+```
+
+## Usage
+Once installed, at the root of your project, run `spectral lint <PATH_TO_YOUR_OPENAPI_YAML>`
 
 ## Organization
 Rules and Rulesets are organized by section of the JSON:API specification:

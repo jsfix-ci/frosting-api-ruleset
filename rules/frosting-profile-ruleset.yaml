@@ -1,0 +1,8 @@
+# Frosting Profile
+# https://leaflink.atlassian.net/wiki/spaces/PLAT/pages/2434302607/Frosting+API+Specification
+
+# *-ruleset.yaml files generally SHOULD NOT contain any testable rules.
+# all rules in this file MUST have corresponding tests.
+
+extends:
+  - ./frosting-profile-document-structure-member-names.yaml

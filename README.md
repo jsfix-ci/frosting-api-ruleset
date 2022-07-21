@@ -36,6 +36,11 @@ Rules and Rulesets are organized by section of the JSON:API specification:
 
 Each file `extends` rules/rulesets contained in its corresponding subsections.
 
+## Development
+
+And example project is included in `./example`. Use this example to test your rulesets by running
+`spectral lint ./example/frosting-example.yaml --ruleset ./example/.spectral.yml` from the root of this project.
+
 ## Contributing
 In lieu of a formal style guide (I know... ironic :grin:):
 - Take care to maintain the existing coding style, including tests.

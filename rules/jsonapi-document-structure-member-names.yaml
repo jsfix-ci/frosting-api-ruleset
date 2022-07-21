@@ -1,0 +1,22 @@
+# Document Structure - Member Names
+# https://jsonapi.org/format/#document-member-names
+
+# all rules in this file MUST have corresponding tests
+
+rules:
+  member-name-allowed-characters:
+    description: "All member names must be greater than length 1 and contain only allowed characters."
+    documentationUrl: https://jsonapi.org/format/#document-member-names
+    message: "{{description}}"
+    severity: error
+    given: >-
+      $..properties.
+    then:
+      - field: "@key"
+        function: length
+        functionOptions:
+          min: 1
+      - field: "@key"
+        function: pattern
+        functionOptions:
+          match: "^[A-Za-z0-9][A-Za-z0-9_-]*[A-Za-z0-9]$"

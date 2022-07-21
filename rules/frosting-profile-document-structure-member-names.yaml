@@ -1,0 +1,22 @@
+# Document Structure - Member Names
+# https://jsonapi.org/recommendations/#naming
+
+# all rules in this file MUST have corresponding tests
+
+rules:
+  frosting-member-name-format:
+    description: "All member names must be camel cased, start and end with a-z, and only contain alphanumerics."
+    documentationUrl: https://jsonapi.org/recommendations/#naming
+    message: "{{description}}"
+    severity: error
+    given: >-
+      $..properties.
+    then:
+      - field: "@key"
+        function: casing
+        functionOptions:
+          type: camel
+      - field: "@key"
+        function: pattern
+        functionOptions:
+          match: "^[a-z][A-Za-z0-9]*[a-z]$"

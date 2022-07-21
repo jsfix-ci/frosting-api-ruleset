@@ -9,3 +9,8 @@ extends:
   - ./jsonapi-document-structure-jsonapi-object.yaml
   - ./jsonapi-document-structure-resource-object.yaml
   - ./jsonapi-document-structure-resource-attributes.yaml
+  - ./jsonapi-document-structure-resource-identification.yaml
+  - ./jsonapi-document-structure-links.yaml
+  - ./jsonapi-document-structure-member-names.yaml
+  - ./jsonapi-document-structure-meta-information.yaml
+

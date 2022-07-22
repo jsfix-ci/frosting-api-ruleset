@@ -1,0 +1,30 @@
+# Document Structure - Pagination
+# https://jsonapi.org/format/#fetching-pagination
+
+# all rules in this file MUST have corresponding tests
+
+rules:
+  page-query-arguments-name:
+    description: "The URL query arguments must take the shape page[arg]"
+    documentationUrl: 'https://jsonapi.org/format/#fetching-pagination'
+    message: "{{path}} - {{description}}"
+    severity: error
+    given: $.paths.*.get.parameters.[?(@.in === 'query' && @.name =~ /^page.*?/i)].name
+    then:
+      - function: enumeration
+        functionOptions:
+          values:
+            - page[number]
+            - page[size]
+            - page[cursor]
+  page-query-arguments-integer:
+    description: "The pagination query parameters must be integers"
+    documentationUrl: 'https://jsonapi.org/format/#fetching-pagination'
+    message: "{{path}} - {{description}}"
+    severity: error
+    given: $.paths.*.get.parameters.[?(@.in === 'query' && @.name =~ /^page.*?/i)].schema.type
+    then:
+      - function: enumeration
+        functionOptions:
+          values:
+            - integer

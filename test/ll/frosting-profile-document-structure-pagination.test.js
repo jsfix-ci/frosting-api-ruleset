@@ -6,7 +6,7 @@ const {Spectral} = require('@stoplight/spectral');
 const {Document, Parsers} = require('@stoplight/spectral');
 
 
-const RULESET_FILE = join(__dirname, '../rules/jsonapi-document-structure-pagination.yaml');
+const RULESET_FILE = join(__dirname, '../../rules/ll/frosting-profile-document-structure-pagination.yaml');
 
 describe('jsonapi-document-structure-pagination ruleset', function () {
 

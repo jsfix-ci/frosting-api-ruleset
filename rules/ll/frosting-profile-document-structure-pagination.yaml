@@ -1,12 +1,13 @@
 # Document Structure - Pagination
 # https://jsonapi.org/format/#fetching-pagination
+# https://leaflink.atlassian.net/wiki/spaces/PLAT/pages/2434302607/Frosting+API+Specification+JSON+API+Profile
 
 # all rules in this file MUST have corresponding tests
 
 rules:
   page-query-arguments-name:
     description: "Pagination query param must be page[number|size|cursor]."
-    documentationUrl: 'https://jsonapi.org/format/#fetching-pagination'
+    documentationUrl: "https://jsonapi.org/format/#fetching-pagination"
     message: "{{path}} - {{description}}"
     severity: error
     given: $.paths..get.parameters.[?(@.in === 'query' && @.name.match(/^page.*?/i))].name
@@ -19,7 +20,7 @@ rules:
             - page[cursor]
   page-query-arguments-size-number:
     description: "Pagination query parameters size and number must be integers."
-    documentationUrl: 'https://jsonapi.org/format/#fetching-pagination'
+    documentationUrl: 'https://leaflink.atlassian.net/wiki/spaces/PLAT/pages/2434302607/Frosting+API+Specification+JSON+API+Profile'
     message: "{{path}} - {{description}}"
     severity: error
     given: $.paths..get.parameters.[?(@.in === 'query' && (@.name === 'page[size]' || @.name === 'page[number]'))].schema.type
@@ -30,7 +31,7 @@ rules:
             - integer
   page-query-arguments-cursor:
     description: "Pagination query parameter cursor must be a string."
-    documentationUrl: 'https://jsonapi.org/format/#fetching-pagination'
+    documentationUrl: 'https://leaflink.atlassian.net/wiki/spaces/PLAT/pages/2434302607/Frosting+API+Specification+JSON+API+Profile'
     message: "{{path}} - {{description}}"
     severity: error
     given: $.paths..get.parameters.[?(@.in === 'query' && @.name === 'page[cursor]')].schema.type

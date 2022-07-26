@@ -3,9 +3,9 @@
 const {join} = require('path');
 const {expect} = require('chai');
 const {Spectral} = require('@stoplight/spectral');
-const {getDocument} = require('./tooling/utils');
+const {getDocument} = require('../tooling/utils');
 
-const RULESET_FILE = join(__dirname, '../rules/frosting-profile-document-structure-member-names.yaml');
+const RULESET_FILE = join(__dirname, '../../rules/ll/frosting-profile-document-structure-member-names.yaml');
 
 describe('frosting-profile-document-structure-member-names ruleset', function () {
 

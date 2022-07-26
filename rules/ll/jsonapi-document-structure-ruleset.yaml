@@ -5,5 +5,4 @@
 # all rules in this file MUST have corresponding tests.
 
 extends:
-  - ./jsonapi-document-structure-top-level.yaml
-  - ./jsonapi-document-structure-jsonapi-object.yaml
+  - ./jsonapi-document-structure-member-names.yaml

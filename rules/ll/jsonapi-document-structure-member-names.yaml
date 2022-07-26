@@ -1,12 +1,12 @@
 # Document Structure - Member Names
-# https://jsonapi.org/format/#document-member-names
+# https://leaflink.atlassian.net/wiki/spaces/PLAT/pages/2434302607/Frosting+API+Specification+JSON+API+Profile#Naming
 
 # all rules in this file MUST have corresponding tests
 
 rules:
   member-name-allowed-characters:
     description: "All member names must be greater than length 1 and contain only allowed characters."
-    documentationUrl: https://jsonapi.org/format/#document-member-names
+    documentationUrl: "https://leaflink.atlassian.net/wiki/spaces/PLAT/pages/2434302607/Frosting+API+Specification+JSON+API+Profile#Naming"
     message: "{{description}}"
     severity: error
     given: >-

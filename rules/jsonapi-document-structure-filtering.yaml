@@ -1,0 +1,15 @@
+# Document Structure - Filtering
+# https://jsonapi.org/format/#fetching-filtering
+
+rules:
+  filter-query-arguments:
+    description: "The URL filter arguments must take the shape filter[fieldName.fieldlookup] or filter[field]"
+    documentationUrl: 'https://jsonapi.org/format/#fetching-filtering'
+    message: "{{path}} - {{description}}"
+    severity: error
+    given: $.paths..get.parameters.[?(@.in === 'query' && @.name.match(/^filter.*?/i))]
+    then:
+      field: name
+      function: pattern
+      functionOptions:
+        match: ^filter\[[a-z][A-Za-z]*[a-z].[[a-z][A-Za-z]*[a-z]\]

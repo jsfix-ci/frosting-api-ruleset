@@ -116,6 +116,57 @@ describe('jsonapi-document-structure-filtering-ruleset', function () {
 
   });
 
+  describe('filtering-keys-nested-dot-notation', function () {
+
+    it('passes when filter keys are lower camel case and has dot notation with lookup field', function (done) {
+
+      const doc = new Document(`
+        openapi: 3.0.2
+        paths:
+          /path:
+            get:
+              parameters:
+                - name: filter[order.invoice.payments]
+                  required: false
+                  in: query
+                  description: order name
+                  schema:
+                    type: string
+                - name: filter[order.invoice.payment_total.gte]
+                  required: false
+                  in: query
+              responses:
+                '200':
+                  content:
+                    application/vnd.api+json:
+                      schema:
+                        type: object
+                        required:
+                        - data
+                        properties:
+                          data:
+                            type: array
+                            items:
+                              type: integer
+      `, Parsers.Yaml);
+
+      spectral.loadRuleset(RULESET_FILE)
+        .then(() => {
+
+          return spectral.run(doc);
+
+        })
+        .then((results) => {
+
+          expect(results.length).to.equal(0);
+          done();
+
+        });
+
+    });
+
+  });
+
   describe('filtering-keys-casing', function () {
 
     it('fails when filter keys are not the correct casing', function (done) {

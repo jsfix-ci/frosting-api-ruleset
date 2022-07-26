@@ -12,4 +12,4 @@ rules:
       field: name
       function: pattern
       functionOptions:
-        match: ^filter\[[a-z][A-Za-z]*[a-z].[[a-z][A-Za-z]*[a-z]\]
+        match: ^filter\[([a-z][A-Za-z]*[a-z].[[a-z][A-Za-z]*[a-z])+\]

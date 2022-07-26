@@ -5,5 +5,6 @@
 # all rules in this file MUST have corresponding tests.
 
 extends:
+  - ./frosting-profile-document-structure-filtering.yaml
   - ./frosting-profile-document-structure-member-names.yaml
   - ./frosting-profile-document-structure-pagination.yaml

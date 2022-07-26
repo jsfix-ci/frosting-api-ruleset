@@ -7,7 +7,7 @@ const {Spectral} = require('@stoplight/spectral');
 const {Document, Parsers} = require('@stoplight/spectral');
 
 
-const RULESET_FILE = join(__dirname, '../rules/jsonapi-document-structure-filtering.yaml');
+const RULESET_FILE = join(__dirname, '../../rules/ll/jsonapi-document-structure-filtering.yaml');
 
 describe('jsonapi-document-structure-filtering-ruleset', function () {
 

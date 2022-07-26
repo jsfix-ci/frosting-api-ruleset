@@ -118,7 +118,7 @@ describe('jsonapi-document-structure-filtering-ruleset', function () {
 
   describe('filtering-keys-nested-dot-notation', function () {
 
-    it('passes when filter keys are lower camel case and has dot notation with lookup field', function (done) {
+    it('passes when dot notation is nested with relations', function (done) {
 
       const doc = new Document(`
         openapi: 3.0.2

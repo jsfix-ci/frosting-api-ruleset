@@ -205,6 +205,8 @@ describe('jsonapi-document-structure-filtering-ruleset', function () {
         .then((results) => {
 
           expect(results.length).to.equal(2);
+          expect(results[0].code).to.equal('filter-query-arguments');
+          expect(results[1].code).to.equal('filter-query-arguments');
           done();
 
         });
@@ -251,6 +253,8 @@ describe('jsonapi-document-structure-filtering-ruleset', function () {
         .then((results) => {
 
           expect(results.length).to.equal(2);
+          expect(results[0].code).to.equal('filter-query-arguments');
+          expect(results[1].code).to.equal('filter-query-arguments');
           done();
 
         });

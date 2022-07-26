@@ -13,4 +13,5 @@ extends:
   - ./jsonapi-document-structure-links.yaml
   - ./jsonapi-document-structure-member-names.yaml
   - ./jsonapi-document-structure-meta-information.yaml
+  - ./jsonapi-document-structure-pagination.yaml
 

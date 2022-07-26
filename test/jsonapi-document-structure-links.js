@@ -788,6 +788,12 @@ describe('jsonapi-document-structure-links ruleset:', function () {
                               type: string
                             next:
                               type: string
+                            previous:
+                              type: string
+                            first:
+                              type: string
+                            last:
+                              type: string
                             related:
                               type: object
                               properties:

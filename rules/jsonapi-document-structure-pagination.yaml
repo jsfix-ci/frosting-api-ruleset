@@ -5,11 +5,11 @@
 
 rules:
   page-query-arguments-name:
-    description: "The URL query arguments must take the shape page[arg]"
+    description: "Pagination query param must be page[number|size|cursor]."
     documentationUrl: 'https://jsonapi.org/format/#fetching-pagination'
     message: "{{path}} - {{description}}"
     severity: error
-    given: $.paths.*.get.parameters.[?(@.in === 'query' && @.name =~ /^page.*?/i)].name
+    given: $.paths..get.parameters.[?(@.in === 'query' && @.name.match(/^page.*?/i))].name
     then:
       - function: enumeration
         functionOptions:
@@ -18,11 +18,11 @@ rules:
             - page[size]
             - page[cursor]
   page-query-arguments-integer:
-    description: "The pagination query parameters must be integers"
+    description: "Pagination query parameters must be integers."
     documentationUrl: 'https://jsonapi.org/format/#fetching-pagination'
     message: "{{path}} - {{description}}"
     severity: error
-    given: $.paths.*.get.parameters.[?(@.in === 'query' && @.name =~ /^page.*?/i)].schema.type
+    given: $.paths..get.parameters.[?(@.in === 'query' && @.name.match(/^page.*?/i))].schema.type
     then:
       - function: enumeration
         functionOptions:

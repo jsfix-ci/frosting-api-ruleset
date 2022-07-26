@@ -17,14 +17,25 @@ rules:
             - page[number]
             - page[size]
             - page[cursor]
-  page-query-arguments-integer:
-    description: "Pagination query parameters must be integers."
+  page-query-arguments-size-number:
+    description: "Pagination query parameters size and number must be integers."
     documentationUrl: 'https://jsonapi.org/format/#fetching-pagination'
     message: "{{path}} - {{description}}"
     severity: error
-    given: $.paths..get.parameters.[?(@.in === 'query' && @.name.match(/^page.*?/i))].schema.type
+    given: $.paths..get.parameters.[?(@.in === 'query' && (@.name === 'page[size]' || @.name === 'page[number]'))].schema.type
     then:
       - function: enumeration
         functionOptions:
           values:
             - integer
+  page-query-arguments-cursor:
+    description: "Pagination query parameter cursor must be a string."
+    documentationUrl: 'https://jsonapi.org/format/#fetching-pagination'
+    message: "{{path}} - {{description}}"
+    severity: error
+    given: $.paths..get.parameters.[?(@.in === 'query' && @.name === 'page[cursor]')].schema.type
+    then:
+      - function: enumeration
+        functionOptions:
+          values:
+            - string

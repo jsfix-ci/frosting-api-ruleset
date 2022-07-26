@@ -4,8 +4,5 @@
 # *-ruleset.yaml files SHOULD NOT contain any testable items.
 
 extends:
-  - spectral:oas
   - ./rules/jsonapi-content-negotiation-ruleset.yaml
   - ./rules/jsonapi-document-structure-ruleset.yaml
-  - ./rules/jsonapi-errors-ruleset.yaml
-  - ./rules/frosting-profile-ruleset.yaml

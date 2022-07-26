@@ -1,2 +1,2 @@
 extends:
-  ../jsonapi-ruleset.yaml
+  ../frosting-ruleset.yaml

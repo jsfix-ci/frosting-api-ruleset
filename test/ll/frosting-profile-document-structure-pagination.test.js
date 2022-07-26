@@ -6,7 +6,7 @@ const {Spectral} = require('@stoplight/spectral');
 const {Document, Parsers} = require('@stoplight/spectral');
 
 
-const RULESET_FILE = join(__dirname, '../rules/jsonapi-document-structure-pagination.yaml');
+const RULESET_FILE = join(__dirname, '../../rules/ll/frosting-profile-document-structure-pagination.yaml');
 
 describe('jsonapi-document-structure-pagination ruleset', function () {
 
@@ -39,7 +39,7 @@ describe('jsonapi-document-structure-pagination ruleset', function () {
                 - in: query
                   name: page[cursor]
                   schema:
-                    type: integer
+                    type: string
               responses:
                 '200':
                   content:
@@ -93,7 +93,7 @@ describe('jsonapi-document-structure-pagination ruleset', function () {
                 - in: query
                   name: page[cursor]
                   schema:
-                    type: integer
+                    type: string
                 - in: query
                   name: page[bad]
                   schema:
@@ -190,7 +190,7 @@ describe('jsonapi-document-structure-pagination ruleset', function () {
                 - in: query
                   name: page[cursor]
                   schema:
-                    type: integer
+                    type: string
               responses:
                 '200':
                   content:
@@ -280,9 +280,13 @@ describe('jsonapi-document-structure-pagination ruleset', function () {
             get:
               parameters:
                 - in: query
-                  name: page[cursor]
+                  name: page[number]
                   schema:
                     type: string
+                - in: query
+                  name: page[cursor]
+                  schema:
+                    type: integer
               responses:
                 '200':
                   content:
@@ -306,8 +310,9 @@ describe('jsonapi-document-structure-pagination ruleset', function () {
         })
         .then((results) => {
 
-          expect(results.length).to.equal(1);
-          expect(results[0].code).to.equal('page-query-arguments-integer');
+          expect(results.length).to.equal(2);
+          expect(results[0].code).to.equal('page-query-arguments-size-number');
+          expect(results[1].code).to.equal('page-query-arguments-cursor');
           done();
 
         });

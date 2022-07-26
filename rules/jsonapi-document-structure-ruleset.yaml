@@ -15,4 +15,3 @@ extends:
   - ./jsonapi-document-structure-meta-information.yaml
   - ./jsonapi-document-structure-pagination.yaml
   - ./jsonapi-document-structure-filtering.yaml
-

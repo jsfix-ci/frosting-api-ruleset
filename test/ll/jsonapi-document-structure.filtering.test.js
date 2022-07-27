@@ -65,7 +65,7 @@ describe('jsonapi-document-structure-filtering-ruleset', function () {
       const unallowedFormats = [
         'filter[UPPERCASE]',
         'filter[ProperCase]',
-        'filter[filter..twodotnotaiton]',
+        'filter[filter..twodotnotation]',
         'filter[filter.]',
         'filter[23094-02934]',
         'filter[email^%$&*]'

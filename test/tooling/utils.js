@@ -6,7 +6,7 @@ const {Document, Parsers} = require('@stoplight/spectral');
  * get a YAML document.
  * if no over rides provided, returns a ruleset valid document
  * @param {Object} options with below possible key values
- * {String} responseContentPropertyKey A key name for some property within a properties attribute of the document.
+ * {String} responseContentPropertyKey name of the key within responses.content.properties
  * {String} filterParamName A keys value for a query filter
  * @return {Document} The document.
  */

@@ -4,8 +4,7 @@
 const {join} = require('path');
 const {expect} = require('chai');
 const {Spectral} = require('@stoplight/spectral');
-const {Document, Parsers} = require('@stoplight/spectral');
-
+const {getDocument} = require('../tooling/utils');
 
 const RULESET_FILE = join(__dirname, '../../rules/ll/jsonapi-document-structure-filtering.yaml');
 
@@ -19,248 +18,82 @@ describe('jsonapi-document-structure-filtering-ruleset', function () {
 
   });
 
-  describe('filtering-keys-lower-case', function () {
+  describe('filtering-keys-allowed-format', function () {
 
-    it('passes when filter keys are lower case', function (done) {
+    it('passes when filter keys are in allowed format', function (done) {
 
-      const doc = new Document(`
-        paths:
-          /v1/leaflink/users:
-            get:
-              operationId: GET/v1/leaflink/users
-              description: Fetch a list of Users
-              parameters:
-                - $ref: #/components/parameters/include
-                - $ref: #/components/parameters/fields
-                - $ref: #/components/parameters/sort
-                - name: filter[email]
-                  required: false
-                  in: query
-                  description: email
-                  schema:
-                    type: string
-                - name: filter[search]
-                  required: false
-                  in: query
-                  description: A search term.
-                  schema:
-                    type: string
+      const allowedFormats = [
+        //lower
+        'filter[email]',
+        //lower.lower
+        'filter[order.id]',
+        //lowerCamelCase.lowerCamelCase
+        'filter[orderName.iContains]',
+        //nested.relation.camelCase
+        'filter[order.invoice.paymentTotal.gte]'
 
-      `, Parsers.Yaml);
+      ];
 
-      spectral.loadRuleset(RULESET_FILE)
-        .then(() => {
+      allowedFormats.forEach(function (filterValue) {
 
-          return spectral.run(doc);
+        const doc = getDocument({'filterParamName': filterValue});
 
-        })
-        .then((results) => {
+        spectral.loadRuleset(RULESET_FILE)
+          .then(() => {
 
-          expect(results.length).to.equal(0);
-          done();
+            return spectral.run(doc);
 
-        });
+          })
+          .then((results) => {
+
+            expect(results.length).to.equal(0);
+          
+          });
+
+      });
+
+      done();
 
     });
-
+  
   });
 
-  describe('filtering-keys-lower-camel-case-with-dot-notation', function () {
+  describe('filtering-keys-unallowed-format', function () {
 
-    it('passes when filter keys are lower camel case and has dot notation with lookup field', function (done) {
+    it('fails when filter keys are do not follow allowed format', function (done) {
 
-      const doc = new Document(`
-        openapi: 3.0.2
-        paths:
-          /path:
-            get:
-              parameters:
-                - name: filter[orderName.iContains]
-                  required: false
-                  in: query
-                  description: order name
-                  schema:
-                    type: string
-                - name: filter[orderTotal.gte]
-                  required: false
-                  in: query
-              responses:
-                '200':
-                  content:
-                    application/vnd.api+json:
-                      schema:
-                        type: object
-                        required:
-                        - data
-                        properties:
-                          data:
-                            type: array
-                            items:
-                              type: integer
-      `, Parsers.Yaml);
+      const unallowedFormats = [
+        'filter[UPPERCASE]',
+        'filter[ProperCase]',
+        'filter[filter..twodotnotaiton]',
+        'filter[filter.]',
+        'filter[23094-02934]',
+        'filter[email^%$&*]'
+      ];
 
-      spectral.loadRuleset(RULESET_FILE)
-        .then(() => {
+      unallowedFormats.forEach(function (filterValue) {
 
-          return spectral.run(doc);
+        const doc = getDocument({'filterParamName': filterValue});
 
-        })
-        .then((results) => {
+        spectral.loadRuleset(RULESET_FILE)
+          .then(() => {
 
-          expect(results.length).to.equal(0);
-          done();
+            return spectral.run(doc);
 
-        });
+          })
+          .then((results) => {
+
+            expect(results.length).to.equal(1);
+            expect(results[0].code).to.equal('filter-query-arguments');
+          
+          });
+
+      });
+
+      done();
 
     });
-
-  });
-
-  describe('filtering-keys-nested-dot-notation', function () {
-
-    it('passes when dot notation is nested with relations', function (done) {
-
-      const doc = new Document(`
-        openapi: 3.0.2
-        paths:
-          /path:
-            get:
-              parameters:
-                - name: filter[order.invoice.payments]
-                  required: false
-                  in: query
-                  description: order name
-                  schema:
-                    type: string
-                - name: filter[order.invoice.payment_total.gte]
-                  required: false
-                  in: query
-              responses:
-                '200':
-                  content:
-                    application/vnd.api+json:
-                      schema:
-                        type: object
-                        required:
-                        - data
-                        properties:
-                          data:
-                            type: array
-                            items:
-                              type: integer
-      `, Parsers.Yaml);
-
-      spectral.loadRuleset(RULESET_FILE)
-        .then(() => {
-
-          return spectral.run(doc);
-
-        })
-        .then((results) => {
-
-          expect(results.length).to.equal(0);
-          done();
-
-        });
-
-    });
-
-  });
-
-  describe('filtering-keys-casing', function () {
-
-    it('fails when filter keys are not the correct casing', function (done) {
-
-      const doc = new Document(`
-        paths:
-          /v1/leaflink/users:
-            get:
-              operationId: GET/v1/leaflink/users
-              description: Fetch a list of Users
-              parameters:
-                - $ref: #/components/parameters/include
-                - $ref: #/components/parameters/fields
-                - $ref: #/components/parameters/sort
-                - name: filter[UPPERCASE]
-                  required: false
-                  in: query
-                  description: email
-                  schema:
-                    type: string
-                - name: filter[ProperCase]
-                  required: false
-                  in: query
-                  description: A search term.
-                  schema:
-                    type: string
-
-      `, Parsers.Yaml);
-
-      spectral.loadRuleset(RULESET_FILE)
-        .then(() => {
-
-          return spectral.run(doc);
-
-        })
-        .then((results) => {
-
-          expect(results.length).to.equal(2);
-          expect(results[0].code).to.equal('filter-query-arguments');
-          expect(results[1].code).to.equal('filter-query-arguments');
-          done();
-
-        });
-
-    });
-
-  });
-
-  describe('filtering-keys-non-alphabetical', function () {
-
-    it('fails when filter keys are not alphabetical', function (done) {
-
-      const doc = new Document(`
-        paths:
-          /v1/leaflink/users:
-            get:
-              operationId: GET/v1/leaflink/users
-              description: Fetch a list of Users
-              parameters:
-                - $ref: #/components/parameters/include
-                - $ref: #/components/parameters/fields
-                - $ref: #/components/parameters/sort
-                - name: filter[^%$&*]
-                  required: false
-                  in: query
-                  description: email
-                  schema:
-                    type: string
-                - name: filter[@#&@!)3]
-                  required: false
-                  in: query
-                  description: A search term.
-                  schema:
-                    type: string
-
-      `, Parsers.Yaml);
-
-      spectral.loadRuleset(RULESET_FILE)
-        .then(() => {
-
-          return spectral.run(doc);
-
-        })
-        .then((results) => {
-
-          expect(results.length).to.equal(2);
-          expect(results[0].code).to.equal('filter-query-arguments');
-          expect(results[1].code).to.equal('filter-query-arguments');
-          done();
-
-        });
-
-    });
-
+  
   });
 
 });

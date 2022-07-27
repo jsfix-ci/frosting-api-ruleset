@@ -6,5 +6,6 @@
 
 extends:
   - ./frosting-profile-document-path.yaml
+  - ./frosting-profile-document-structure-filtering.yaml
   - ./frosting-profile-document-structure-member-names.yaml
   - ./frosting-profile-document-structure-pagination.yaml

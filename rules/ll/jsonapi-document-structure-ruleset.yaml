@@ -6,3 +6,4 @@
 
 extends:
   - ./jsonapi-document-structure-member-names.yaml
+  - ./jsonapi-document-structure-return-codes.yaml

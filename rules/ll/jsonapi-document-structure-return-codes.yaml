@@ -1,0 +1,17 @@
+# Frosting Profile - Return Codes
+# https://jsonapi.org/format/#crud-deleting
+
+# all rules in this file MUST have corresponding tests
+
+rules:
+  frosting-delete-return-codes:
+    description: "DELETEs must contain at least 204 and 404 response codes."
+    documentationUrl: https://jsonapi.org/format/#crud-deleting
+    message: "{{path}} - {{description}}"
+    severity: error
+    given: $.paths..delete.responses
+    then:
+      - field: '204'
+        function: truthy
+      - field: '404'
+        function: truthy

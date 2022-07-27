@@ -1,0 +1,16 @@
+# Paths - Path Naming Conventions
+# https://leaflink.atlassian.net/wiki/spaces/PLAT/pages/2434302607/Frosting+API+Specification+JSON+API+Profile#%5BPath-Naming-Conventions%5D
+
+# all rules in this file MUST have corresponding tests
+
+rules:
+  no-whitespace-or-hyphens:
+    description: "Paths must not contain whitespace or hyphens."
+    documentationUrl: "https://leaflink.atlassian.net/wiki/spaces/PLAT/pages/2434302607/Frosting+API+Specification+JSON+API+Profile#%5BPath-Naming-Conventions%5D"
+    message: "{{path}} - {{description}}"
+    severity: error
+    given: $.paths.*~
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: "/[\\s-]/img"

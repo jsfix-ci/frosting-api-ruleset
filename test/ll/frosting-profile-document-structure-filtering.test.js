@@ -6,7 +6,7 @@ const {expect} = require('chai');
 const {Spectral} = require('@stoplight/spectral');
 const {getDocument} = require('../tooling/utils');
 
-const RULESET_FILE = join(__dirname, '../../rules/ll/jsonapi-document-structure-filtering.yaml');
+const RULESET_FILE = join(__dirname, '../../rules/ll/frosting-profile-document-structure-filtering.yaml');
 
 describe('jsonapi-document-structure-filtering-ruleset', function () {
 
@@ -47,7 +47,7 @@ describe('jsonapi-document-structure-filtering-ruleset', function () {
           .then((results) => {
 
             expect(results.length).to.equal(0);
-          
+
           });
 
       });
@@ -55,7 +55,7 @@ describe('jsonapi-document-structure-filtering-ruleset', function () {
       done();
 
     });
-  
+
   });
 
   describe('filtering-keys-unallowed-format', function () {
@@ -85,7 +85,7 @@ describe('jsonapi-document-structure-filtering-ruleset', function () {
 
             expect(results.length).to.equal(1);
             expect(results[0].code).to.equal('filter-query-arguments');
-          
+
           });
 
       });
@@ -93,7 +93,7 @@ describe('jsonapi-document-structure-filtering-ruleset', function () {
       done();
 
     });
-  
+
   });
 
 });

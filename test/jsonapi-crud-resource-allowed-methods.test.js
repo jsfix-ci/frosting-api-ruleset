@@ -74,6 +74,7 @@ describe('jsonapi-crud-resource-allowed-methods-ruleset', function () {
         .then((results) => {
 
           expect(results.length).to.equal(1);
+          expect(results[0].code).to.equal('allowed-http-methods');
           done();
         
         });

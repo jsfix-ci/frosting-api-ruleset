@@ -4,7 +4,7 @@
 # all rules in this file MUST have corresponding tests
 
 rules:
-  attributes-object-type:
+  allowed-http-methods:
     description: "PUT is not a jsonapi supported http method"
     documentationUrl: https://jsonapi.org/faq/#wheres-put
     message: "{{path}} - {{description}}"

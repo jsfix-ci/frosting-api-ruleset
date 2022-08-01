@@ -1,0 +1,17 @@
+# Create Read Update Delete Resource Information https://jsonapi.org/format/#crud
+# https://jsonapi.org/faq/#wheres-put
+
+# all rules in this file MUST have corresponding tests
+
+rules:
+  put-unallowed-http-method:
+    description: "PUT is not a jsonapi supported http method"
+    documentationUrl: https://jsonapi.org/faq/#wheres-put
+    message: "{{path}} - {{description}}"
+    severity: error
+    given: $.paths.*
+    then:
+      field: '@key'
+      function: pattern
+      functionOptions:
+        notMatch: "/put/i"

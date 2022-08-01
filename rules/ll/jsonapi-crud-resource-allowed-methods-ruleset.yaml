@@ -14,4 +14,4 @@ rules:
       field: '@key'
       function: pattern
       functionOptions:
-        notMatch: "/put/"
+        notMatch: "/put/i"

@@ -39,10 +39,10 @@ describe('jsonapi-crud-resource-allowed-methods-ruleset', function () {
                 '204':
             options:
               responses:
-                '204':
+                '200':
             head:
               responses:
-                '204':
+                '200':
       `, Parsers.Yaml);
 
       spectral.loadRuleset(RULESET_FILE)

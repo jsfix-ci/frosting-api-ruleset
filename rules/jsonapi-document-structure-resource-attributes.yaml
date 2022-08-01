@@ -11,7 +11,7 @@ rules:
     severity: error
     given: $..properties[?(@property === 'attributes')]
     then:
-      field: 'type'
+      field: "type"
       function: enumeration
       functionOptions:
         values:
@@ -24,7 +24,7 @@ rules:
     severity: error
     given: $..properties[?(@property === 'attributes')].properties
     then:
-      - field: 'relationships'
+      - field: "relationships"
         function: falsy
-      - field: 'links'
+      - field: "links"
         function: falsy

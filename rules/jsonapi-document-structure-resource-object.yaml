@@ -73,9 +73,9 @@ rules:
     severity: error
     given: $.paths.*.[?(@property === 'requestBody' && @parentProperty !== 'post' || @property === 'responses')]..content[?(@property === 'application/vnd.api+json')].schema.properties[?(@property === 'data' || @property === 'included')][?(@property === 'type' && @ === 'object')]^.properties
     then:
-      - field: 'type'
+      - field: "type"
         function: truthy
-      - field: 'id'
+      - field: "id"
         function: truthy
 
   resource-object-properties-included-array:
@@ -85,11 +85,10 @@ rules:
     severity: error
     given: $.paths.*.[?(@property === 'requestBody' && @parentProperty !== 'post' || @property === 'responses')]..content[?(@property === 'application/vnd.api+json')].schema.properties[?(@property === 'data' || @property === 'included')][?(@property === 'type' && @ === 'array')]^..allOf.*.properties
     then:
-      - field: 'type'
+      - field: "type"
         function: truthy
-      - field: 'id'
+      - field: "id"
         function: truthy
-
 
   #ccording to https://jsonapi.org/format/#crud, this requestBody should only be a single resource object
   resource-object-id-exception:
@@ -99,6 +98,5 @@ rules:
     severity: error
     given: $.paths..[?(@property === 'post')][?(@property === 'requestBody')]..schema.properties[?(@property === 'data' || @property === 'included')].properties
     then:
-      field: 'type'
+      field: "type"
       function: truthy
-

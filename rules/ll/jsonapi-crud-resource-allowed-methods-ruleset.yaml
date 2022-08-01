@@ -12,10 +12,6 @@ rules:
     given: $.paths.*
     then:
       field: '@key'
-      function: enumeration
+      function: pattern
       functionOptions:
-        values:
-          - get
-          - post
-          - patch
-          - delete
+        notMatch: "/put/"

@@ -5,7 +5,7 @@ const {join} = require('path');
 const {expect} = require('chai');
 const {Spectral, Document, Parsers} = require('@stoplight/spectral');
 
-const RULESET_FILE = join(__dirname, '../rules/jsonapi-crud-resource-allowed-methods-ruleset.yaml');
+const RULESET_FILE = join(__dirname, '../../rules/ll/jsonapi-crud-resource-allowed-methods-ruleset.yaml');
 
 describe('jsonapi-crud-resource-allowed-methods-ruleset', function () {
 
@@ -35,6 +35,12 @@ describe('jsonapi-crud-resource-allowed-methods-ruleset', function () {
               responses:
                 '201':
             delete:
+              responses:
+                '204':
+            options:
+              responses:
+                '204':
+            head:
               responses:
                 '204':
       `, Parsers.Yaml);

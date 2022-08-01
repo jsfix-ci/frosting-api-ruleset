@@ -5,5 +5,6 @@
 # all rules in this file MUST have corresponding tests.
 
 extends:
+  - ./jsonapi-crud-resource-allowed-methods-ruleset.yaml
   - ./jsonapi-document-structure-member-names.yaml
   - ./jsonapi-document-structure-return-codes.yaml

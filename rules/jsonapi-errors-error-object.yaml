@@ -99,7 +99,7 @@ rules:
       functionOptions:
         values:
           - string
-  
+
   error-object-source-pointer-type:
     description: "Pointer, if included in source object, must be of type string or array"
     documentationUrl: https://jsonapi.org/format/#error-objects

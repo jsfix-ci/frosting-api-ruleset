@@ -11,7 +11,7 @@ rules:
     severity: error
     given: $.paths..delete.responses
     then:
-      - field: '204'
+      - field: "204"
         function: truthy
-      - field: '404'
+      - field: "404"
         function: truthy

@@ -1,0 +1,8 @@
+# eslint is still handling the JS
+test
+
+# auto-generated
+package-lock.json
+
+# no need to fix an example project
+example

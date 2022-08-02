@@ -35,13 +35,23 @@ function combine(filepath, content) {
   return content;
 }
 
+// parse args
+var argv = require('yargs/yargs')(process.argv.slice(2))
+  .alias('i', 'input')
+  .describe('i', 'The input file. Should be the top-level ruleset yaml document.')
+  .alias('o', 'output')
+  .describe('o', 'The output file. Will be a single yaml document containing all rules.')
+  .demandOption(['i', 'o'])
+  .usage('Usage: $0 -i [input_file] -o [output_file]')
+  .argv;
+
 var content = new Object({
   extends: new Array(),
   rules: new Object()
 });
 
-const everything = combine('./frosting-ruleset.yaml', content);
-fs.writeFile('./frosting-ruleset.compiled.yaml', YAML.stringify(content, {lineWidth: 0}), function(err) {
+const everything = combine(argv.input, content);
+fs.writeFile(argv.output, YAML.stringify(content, {lineWidth: 0}), function(err) {
   if (err) {
     console.log(err);
     process.exit(1);

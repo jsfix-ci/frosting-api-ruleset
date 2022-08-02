@@ -4,7 +4,8 @@
   "description": "spectral rules for json:api",
   "main": "json-ruleset.yaml",
   "scripts": {
-    "compile": "./bin/compile.js",
+    "compile": "./bin/compile.js -i ./frosting-ruleset.yaml -o ./frosting-ruleset.compiled.yaml",
+    "compile-ci": "./bin/compile.js -i ./frosting-ruleset.yaml -o ./frosting-ruleset.prod.yaml",
     "fix": "./node_modules/.bin/eslint --fix test/ && ./node_modules/.bin/prettier --write .",
     "test": "./node_modules/.bin/eslint test/ && ./node_modules/.bin/mocha --recursive",
     "lint": "./node_modules/.bin/eslint test/ && ./node_modules/.bin/prettier --check ."
@@ -41,6 +42,7 @@
   },
   "dependencies": {
     "prettier": "^2.7.1",
-    "yaml": "^2.1.1"
+    "yaml": "^2.1.1",
+    "yargs": "^17.5.1"
   }
 }

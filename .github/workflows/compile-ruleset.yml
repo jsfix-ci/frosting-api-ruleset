@@ -29,6 +29,6 @@ jobs:
           git config user.name "LeafLink Automation"
           git fetch
           git checkout ${{ github.head_ref }}
-          git add ./frosting-ruleset.prod.yaml
+          git add ./frosting-ruleset.compiled.yaml
           git commit -m "Automated: Updating compiled ruleset"
           git push

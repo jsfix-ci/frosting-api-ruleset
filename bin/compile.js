@@ -18,9 +18,9 @@ function combine(filepath, content) {
     if (key === "extends") {
       for (var i = 0; i < value.length; i++) {
         const extend = value[i];
-        const temppath = extend.split('/').slice(1).join("/");
-        if (fs.existsSync(temppath)) {
-          combine(directory + "/" + temppath, content);
+        const extendPath = directory + "/" + extend.split('/').slice(1).join("/");
+        if (fs.lstatSync(extendPath).isFile()) {
+          combine(extendPath, content);
         } else {
           console.log("Adding ruleset source " + extend);
           content["extends"].push(extend);

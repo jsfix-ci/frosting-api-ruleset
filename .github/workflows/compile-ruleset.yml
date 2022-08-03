@@ -17,7 +17,7 @@ jobs:
         with:
           fetch-depth: 0
           ref: main
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.LEAFLINK_AUTOMATION_PAT }}
       - name: Use Node.js 14
         uses: actions/setup-node@v3
         with:
@@ -27,7 +27,7 @@ jobs:
       - run: npm run compile-ci
       - name: commit compiled ruleset
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.LEAFLINK_AUTOMATION_PAT }}
         run: |
           git add ./dist/frosting-ruleset.compiled.yaml
           git commit -m "Automated: Updating compiled ruleset"

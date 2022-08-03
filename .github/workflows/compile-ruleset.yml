@@ -11,13 +11,13 @@ permissions:
 
 jobs:
   compile:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
           ref: main
-          token: ${{ secrets.LEAFLINK_AUTOMATION_PAT }}
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Use Node.js 14
         uses: actions/setup-node@v3
         with:
@@ -29,6 +29,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.LEAFLINK_AUTOMATION_PAT }}
         run: |
+          git config user.email "github-automation@leaflink.com"
+          git config user.name "LeafLink Automation"
+          git fetch
+          git checkout ${{ github.head_ref }}
+          git pull
           git add ./dist/frosting-ruleset.compiled.yaml
           git commit -m "Automated: Updating compiled ruleset"
           git push

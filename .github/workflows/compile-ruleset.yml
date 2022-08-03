@@ -25,7 +25,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          git config user.email "github-automation@leaflink.com"
+          git config user.name "LeafLink Automation"
           git fetch
+          git pull
           git checkout ${{ github.head_ref }}
           git add ./dist/frosting-ruleset.compiled.yaml
           git commit -m "Automated: Updating compiled ruleset"

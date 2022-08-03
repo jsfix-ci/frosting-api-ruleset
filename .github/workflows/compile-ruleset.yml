@@ -25,6 +25,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          git config --global user.email "github-automation@leaflink.com"
+          git config --global user.name "leaflink-automation"
           git add ./dist/frosting-ruleset.compiled.yaml
           git commit -m "Automated: Updating compiled ruleset"
           git push

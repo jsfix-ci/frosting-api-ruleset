@@ -31,6 +31,7 @@ jobs:
         run: |
           git config --global user.email github-actions@github.com
           git config --global user.name github-actions
+          git remote set-url origin https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
           git add ./dist/frosting-ruleset.compiled.yaml
           git commit -m "Automated: Updating compiled ruleset"
           git push

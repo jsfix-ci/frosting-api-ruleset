@@ -30,7 +30,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.LEAFLINK_AUTOMATION_PAT }}
         run: |
           git config user.email "github-automation@leaflink.com"
-          git config user.name "LeafLink Automation"
+          git config user.name "leaflink-automation"
           git fetch
           git checkout ${{ github.head_ref }}
           git pull

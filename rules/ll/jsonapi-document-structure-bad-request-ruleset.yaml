@@ -9,7 +9,7 @@ rules:
     documentationUrl: https://jsonapi.org/format/#error-objects
     message: "{{path}} - {{description}}"
     severity: error
-    given: $.paths[*].*.responses
+    given: $.paths..responses
     then:
       - field: "400"
         function: truthy
@@ -19,10 +19,10 @@ rules:
     documentationUrl: https://jsonapi.org/format/#error-objects
     message: "{{path}} - {{description}}"
     severity: error
-    given: $.paths[*].*.responses.400.content.['application/vnd.api+json'].schema
+    given: $.paths..responses.400.content.['application/vnd.api+json'].schema
     then:
       field: "$ref"
       function: enumeration
       functionOptions:
         values:
-          - '#/components/schemas/failure'
+          - "#/components/schemas/failure"

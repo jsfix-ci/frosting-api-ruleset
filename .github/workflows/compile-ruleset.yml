@@ -1,13 +1,12 @@
 name: Build ruleset
 
 on:
-  push:
-    branches:
-      - main
+  pull_request:
 
 permissions:
   id-token: write
   contents: write
+  pull-requests: write
 
 jobs:
   compile:
@@ -16,7 +15,6 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          ref: main
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: Use Node.js 14
         uses: actions/setup-node@v3
@@ -36,4 +34,4 @@ jobs:
           git pull
           git add ./dist/frosting-ruleset.compiled.yaml
           git commit -m "Automated: Updating compiled ruleset"
-          git push
+          git push -f

@@ -442,6 +442,27 @@ rules:
       function: pattern
       functionOptions:
         notMatch: /put/i
+  bad-request-responses:
+    description: Servers MUST document and support a 400 on all paths
+    documentationUrl: https://jsonapi.org/format/#error-objects
+    message: "{{path}} - {{description}}"
+    severity: error
+    given: $.paths..responses
+    then:
+      - field: "400"
+        function: truthy
+  bad-request-response-error-ref:
+    description: 400 responses must provide a reference to the error object
+    documentationUrl: https://jsonapi.org/format/#error-objects
+    message: "{{path}} - {{description}}"
+    severity: error
+    given: $.paths..responses.400.content.['application/vnd.api+json'].schema
+    then:
+      field: $ref
+      function: enumeration
+      functionOptions:
+        values:
+          - "#/components/schemas/failure"
   member-name-allowed-characters:
     description: All member names must be greater than length 1 and contain only allowed characters.
     documentationUrl: https://leaflink.atlassian.net/wiki/spaces/PLAT/pages/2434302607/Frosting+API+Specification+JSON+API+Profile#Naming

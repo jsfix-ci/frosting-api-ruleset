@@ -85,6 +85,12 @@ paths:
             application/vnd.api+json:
               schema:
                 $ref: '#/components/schemas/failure'
+        '400':
+          description: bad request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/failure'
         '404':
           description: not found
           content:
@@ -157,6 +163,12 @@ paths:
                 $ref: '#/components/schemas/failure'
         '415':
           description: unsupported media type
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/failure'
+        '400':
+          description: bad request
           content:
             application/vnd.api+json:
               schema:
@@ -239,8 +251,129 @@ paths:
             application/vnd.api+json:
               schema:
                 $ref: '#/components/schemas/failure'
+        '400':
+          description: bad request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/failure'
         '404':
           description: not found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/failure'
+    post:
+      operationId: POST/v1/leaflink/messages
+      description: ''
+      parameters: []
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              required:
+              - data
+              properties:
+                data:
+                  type: object
+                  required:
+                  - type
+                  additionalProperties: false
+                  properties:
+                    type:
+                      $ref: '#/components/schemas/type'
+                    id:
+                      $ref: '#/components/schemas/id'
+                    links:
+                      type: object
+                      properties:
+                        self:
+                          $ref: '#/components/schemas/link'
+                    attributes:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        msg:
+                          type: string
+                          maxLength: 50
+                      required:
+                      - id
+                      - msg
+      responses:
+        '201':
+          description: '[Created](https://jsonapi.org/format/#crud-creating-responses-201).
+            Assigned `id` and/or any other changes are in this response.'
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                required:
+                - data
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Message'
+                  included:
+                    type: array
+                    uniqueItems: true
+                    items:
+                      $ref: '#/components/schemas/resource'
+                  links:
+                    description: Link members related to primary data
+                    allOf:
+                    - $ref: '#/components/schemas/links'
+                    - $ref: '#/components/schemas/pagination'
+                  jsonapi:
+                    $ref: '#/components/schemas/jsonapi'
+        '202':
+          description: Accepted for [asynchronous processing](https://jsonapi.org/recommendations/#asynchronous-processing)
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/datum'
+        '204':
+          description: '[Created](https://jsonapi.org/format/#crud-creating-responses-204)
+            with the supplied `id`. No other changes from what was POSTed.'
+        '401':
+          description: not authorized
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/failure'
+        '406':
+          description: not acceptable
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/failure'
+        '415':
+          description: unsupported media type
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/failure'
+        '400':
+          description: bad request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/failure'
+        '403':
+          description: '[Forbidden](https://jsonapi.org/format/#crud-creating-responses-403)'
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/failure'
+        '404':
+          description: '[Related resource does not exist](https://jsonapi.org/format/#crud-creating-responses-404)'
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/failure'
+        '409':
+          description: '[Conflict](https://jsonapi.org/format/#crud-creating-responses-409)'
           content:
             application/vnd.api+json:
               schema:
@@ -305,6 +438,12 @@ paths:
                 $ref: '#/components/schemas/failure'
         '415':
           description: unsupported media type
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/failure'
+        '400':
+          description: bad request
           content:
             application/vnd.api+json:
               schema:

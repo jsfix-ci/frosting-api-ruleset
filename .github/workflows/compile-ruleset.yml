@@ -29,9 +29,9 @@ jobs:
         run: |
           git config user.email "github-automation@leaflink.com"
           git config user.name "leaflink-automation"
-          git fetch
-          git checkout ${{ github.head_ref }}
-          git pull
-          git add ./dist/frosting-ruleset.compiled.yaml
-          git commit -m "Automated: Updating compiled ruleset"
-          git push -f
+          if [[ `git status --porcelain | grep dist/frosting-ruleset.compiled.yaml` ]]; then
+            git add dist/frosting-ruleset.compiled.yaml
+            git commit -m "Automated: Updating compiled ruleset"
+            git push -f
+          fi
+        shell: bash

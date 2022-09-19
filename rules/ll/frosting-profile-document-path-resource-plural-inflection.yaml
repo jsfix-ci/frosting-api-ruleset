@@ -1,0 +1,14 @@
+functions:
+  - inflection-check
+rules:
+  function-rule:
+    description: "Path resource types should be plural."
+    documentationUrl: "https://leaflink.atlassian.net/wiki/spaces/PLAT/pages/2434302607/Frosting+API+Specification+JSON+API+Profile#%5BPath-Naming-Conventions%5D"
+    message: "{{path}} - {{description}} - {{error}}"
+    severity: error
+    given: "$.paths[*]~"
+    then:
+      function: "inflection-check"
+      functionOptions:
+        type: "@resource-name"
+        plural: true

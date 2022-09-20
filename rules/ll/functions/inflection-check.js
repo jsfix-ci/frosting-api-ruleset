@@ -72,7 +72,7 @@ const verifyResponseType = (input, options) => {
 
     return [
       {
-        message: `${responseType} should be: ${inflection.singularize(path.at(-1))}.`
+        message: `${responseType} should be: ${inflection.singularize(responseType)}.`
       }
     ];
 

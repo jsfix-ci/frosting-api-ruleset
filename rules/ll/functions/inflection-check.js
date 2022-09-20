@@ -35,14 +35,14 @@ const verifyResourceName = (input, options) => {
   const re = /[-a-zA-Z0-9()@:%_+.~#?&=/]*/u;
   const path = String(input.match(re)).split('/');
 
-  if (path.at(-1) === '') {
+  if (path[path.length - 1] === '') {
 
     //because paths can either end with / or without we need to pop after split if '' is present
     path.pop();
 
   }
   //resource name should be the last element in the array
-  const resourceName = path.at(-1);
+  const resourceName = path[path.length - 1];
 
   //check if the value is equal to the plural / singular version of itself
   if (!inflectionCheck(options.plural, resourceName)) {
@@ -66,7 +66,7 @@ const verifyResourceName = (input, options) => {
 const verifyResponseType = (input, options) => {
 
   const path = input.split('/');
-  const responseType = path.at(-1);
+  const responseType = path[path.length - 1];
 
   if (!inflectionCheck(options.plural, responseType)) {
 

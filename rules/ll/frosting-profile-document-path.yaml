@@ -15,7 +15,7 @@ rules:
       functionOptions:
         notMatch: "/[\\s-]/img"
   no-trailing-slash:
-    description: "All member names should not contains a trailing slash."
+    description: "Path must not end with a trailing slash."
     documentationUrl: "https://leaflink.atlassian.net/wiki/spaces/PLAT/pages/2434302607/Frosting+API+Specification+JSON+API+Profile#%5BTrailing-Slashes%5D"
     message: "{{path}} - {{description}}"
     severity: error

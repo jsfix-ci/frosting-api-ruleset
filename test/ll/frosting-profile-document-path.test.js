@@ -129,4 +129,114 @@ describe('frosting-profile-document-path ruleset', function () {
 
   });
 
+  describe('no-trailing-slash', function () {
+
+    it('fails when the path includes a trailing slash', function (done) {
+
+      const doc = new Document(`
+        openapi: 3.0.2
+        paths:
+          /somepath/:
+            get:
+              responses:
+                '200':
+                  content:
+                    application/vnd.api+json:
+                      schema:
+                        type: object
+                        required:
+                        - data
+                        properties:
+                          data:
+                            type: array
+                            items:
+                              type: integer
+          /some_path/:
+            get:
+              responses:
+                '200':
+                  content:
+                    application/vnd.api+json:
+                      schema:
+                        type: object
+                        required:
+                        - data
+                        properties:
+                          data:
+                            type: array
+                            items:
+                              type: integer
+      `, Parsers.Yaml);
+
+      spectral.loadRuleset(RULESET_FILE)
+        .then(() => {
+
+          return spectral.run(doc);
+
+        })
+        .then((results) => {
+
+          expect(results.length).to.equal(2);
+          expect(results[0].code).to.equal('no-trailing-slash');
+          expect(results[1].code).to.equal('no-trailing-slash');
+          done();
+
+        });
+
+    });
+
+    it('passes when there is no trailing slash', function (done) {
+
+      const doc = new Document(`
+        openapi: 3.0.2
+        paths:
+          /somepath:
+            get:
+              responses:
+                '200':
+                  content:
+                    application/vnd.api+json:
+                      schema:
+                        type: object
+                        required:
+                        - data
+                        properties:
+                          data:
+                            type: array
+                            items:
+                              type: integer
+          /some_path:
+            get:
+              responses:
+                '200':
+                  content:
+                    application/vnd.api+json:
+                      schema:
+                        type: object
+                        required:
+                        - data
+                        properties:
+                          data:
+                            type: array
+                            items:
+                              type: integer
+      `, Parsers.Yaml);
+
+      spectral.loadRuleset(RULESET_FILE)
+        .then(() => {
+
+          return spectral.run(doc);
+
+        })
+        .then((results) => {
+
+          expect(results.length).to.equal(0);
+          done();
+
+        });
+
+    });
+
+  });
+
 });

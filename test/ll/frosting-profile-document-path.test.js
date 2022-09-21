@@ -136,7 +136,7 @@ describe('frosting-profile-document-path ruleset', function () {
       const doc = new Document(`
         openapi: 3.0.2
         paths:
-          /somepath/:
+          /simplepath/:
             get:
               responses:
                 '200':
@@ -151,7 +151,22 @@ describe('frosting-profile-document-path ruleset', function () {
                             type: array
                             items:
                               type: integer
-          /some_path/:
+          /somepath/users/:
+            get:
+              responses:
+                '200':
+                  content:
+                    application/vnd.api+json:
+                      schema:
+                        type: object
+                        required:
+                        - data
+                        properties:
+                          data:
+                            type: array
+                            items:
+                              type: integer
+          /somepath/users/1/more_paths/:
             get:
               responses:
                 '200':
@@ -176,9 +191,10 @@ describe('frosting-profile-document-path ruleset', function () {
         })
         .then((results) => {
 
-          expect(results.length).to.equal(2);
+          expect(results.length).to.equal(3);
           expect(results[0].code).to.equal('no-trailing-slash');
           expect(results[1].code).to.equal('no-trailing-slash');
+          expect(results[2].code).to.equal('no-trailing-slash');
           done();
 
         });
@@ -190,7 +206,7 @@ describe('frosting-profile-document-path ruleset', function () {
       const doc = new Document(`
         openapi: 3.0.2
         paths:
-          /somepath:
+          /simplepath:
             get:
               responses:
                 '200':
@@ -205,7 +221,22 @@ describe('frosting-profile-document-path ruleset', function () {
                             type: array
                             items:
                               type: integer
-          /some_path:
+          /somepath/users:
+            get:
+              responses:
+                '200':
+                  content:
+                    application/vnd.api+json:
+                      schema:
+                        type: object
+                        required:
+                        - data
+                        properties:
+                          data:
+                            type: array
+                            items:
+                              type: integer
+          /somepath/users/1/more_paths:
             get:
               responses:
                 '200':
@@ -221,6 +252,7 @@ describe('frosting-profile-document-path ruleset', function () {
                             items:
                               type: integer
       `, Parsers.Yaml);
+
 
       spectral.loadRuleset(RULESET_FILE)
         .then(() => {

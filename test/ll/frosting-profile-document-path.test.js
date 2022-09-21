@@ -253,7 +253,6 @@ describe('frosting-profile-document-path ruleset', function () {
                               type: integer
       `, Parsers.Yaml);
 
-
       spectral.loadRuleset(RULESET_FILE)
         .then(() => {
 

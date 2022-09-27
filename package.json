@@ -41,6 +41,7 @@
     "hooks": {}
   },
   "dependencies": {
+    "fs-extra": "^10.1.0",
     "inflection": "^1.13.2",
     "prettier": "^2.7.1",
     "yaml": "^2.1.1",

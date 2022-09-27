@@ -2,7 +2,7 @@
 
 "use strict";
 
-const fs = require("fs");
+const fs = require("fs-extra");
 const path = require("path");
 const URL = require("url").URL;
 const YAML = require("yaml");
@@ -42,9 +42,12 @@ function combine(filepath, content) {
           content["extends"].push(extend);
         }
       }
+    } else if (key === "functions") {
+      console.log("Gathering function references from " + filepath);
+      content["functions"] = new Set([...content["functions"], ...value]);
     } else {
       console.log("Gathering rules from " + filepath);
-      content["rules"] = { ...content["rules"], ...value };
+      content["rules"] = { ...content["rules"], ...value};
     }
   }
 
@@ -69,6 +72,7 @@ var argv = require("yargs/yargs")(process.argv.slice(2))
 var content = new Object({
   extends: new Array(),
   rules: new Object(),
+  functions: new Set(),
 });
 
 const everything = combine(argv.input, content);
@@ -79,6 +83,7 @@ if (!fs.existsSync(outDirectory)) {
   fs.mkdirSync(outDirectory);
 }
 
+// write ruleset file
 fs.writeFile(
   argv.output,
   YAML.stringify(content, { lineWidth: 0 }),
@@ -91,3 +96,14 @@ fs.writeFile(
     }
   }
 );
+
+// copy custom functions directory to output directory
+const parentDirectory = path.dirname(argv.input);
+const funcDirectory = path.join(parentDirectory, "functions");
+const outFuncDirectory = path.join(outDirectory, "functions");
+if (fs.existsSync(funcDirectory)) {
+  fs.copySync(funcDirectory, outFuncDirectory, { "overwrite": true });
+  console.log("Wrote custom functions to " + path.join(outDirectory, "functions"));
+} else {
+  console.log("No custom functions detected.")
+}

@@ -570,3 +570,4 @@ rules:
         functionOptions:
           values:
             - string
+functions: []

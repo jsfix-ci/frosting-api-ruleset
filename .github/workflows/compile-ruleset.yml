@@ -32,8 +32,8 @@ jobs:
           git fetch
           git checkout ${{ github.head_ref }}
           git pull
-          if [[ `git status --porcelain | grep dist/frosting-ruleset.compiled.yaml` ]]; then
-            git add dist/frosting-ruleset.compiled.yaml
+          if [[ `git status --porcelain | grep dist/` ]]; then
+            git add dist/
             git commit -m "Automated: Updating compiled ruleset"
             git push -f
           fi

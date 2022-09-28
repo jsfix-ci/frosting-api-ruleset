@@ -16,13 +16,21 @@ const stringIsAValidUrl = (s) => {
   }
 };
 
-function combine(filepath, content) {
+function combine(filepath, content, outDirectory) {
   const patharray = filepath.split("/");
   const filename = patharray.splice(patharray.length - 1)[0];
   const directory = patharray.join("/");
 
   const raw = fs.readFileSync(filepath, "utf8");
   const ruleset = YAML.parse(raw);
+
+  // check for custom functions subdirectory
+  const funcDirectory = path.join(path.dirname(filepath), "functions");
+  const outFuncDirectory = path.join(outDirectory, "functions");
+  if (fs.existsSync(funcDirectory)) {
+    fs.copySync(funcDirectory, outFuncDirectory, { "overwrite": true });
+    console.log("Wrote custom functions to " + path.join(outDirectory, "functions"));
+  }
 
   for (const [key, value] of Object.entries(ruleset)) {
     if (key === "extends") {
@@ -36,7 +44,7 @@ function combine(filepath, content) {
           console.log("Adding ruleset source " + extend);
           content["extends"].push(extend);
         } else if (fs.lstatSync(extendPath).isFile()) {
-          combine(extendPath, content);
+          combine(extendPath, content, outDirectory);
         } else {
           console.log("Adding ruleset source " + extend);
           content["extends"].push(extend);
@@ -75,13 +83,17 @@ var content = new Object({
   functions: new Set(),
 });
 
-const everything = combine(argv.input, content);
-
 // make filepath if dne
 const outDirectory = path.dirname(argv.output);
 if (!fs.existsSync(outDirectory)) {
   fs.mkdirSync(outDirectory);
 }
+
+const parentDirectory = path.dirname(argv.input);
+const funcDirectory = path.join(parentDirectory, "functions");
+const outFuncDirectory = path.join(outDirectory, "functions");
+
+const everything = combine(argv.input, content, outDirectory);
 
 // write ruleset file
 fs.writeFile(
@@ -96,14 +108,3 @@ fs.writeFile(
     }
   }
 );
-
-// copy custom functions directory to output directory
-const parentDirectory = path.dirname(argv.input);
-const funcDirectory = path.join(parentDirectory, "functions");
-const outFuncDirectory = path.join(outDirectory, "functions");
-if (fs.existsSync(funcDirectory)) {
-  fs.copySync(funcDirectory, outFuncDirectory, { "overwrite": true });
-  console.log("Wrote custom functions to " + path.join(outDirectory, "functions"));
-} else {
-  console.log("No custom functions detected.")
-}

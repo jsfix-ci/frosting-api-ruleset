@@ -6,6 +6,7 @@ const fs = require("fs-extra");
 const path = require("path");
 const URL = require("url").URL;
 const YAML = require("yaml");
+const archiver = require("archiver");
 
 const stringIsAValidUrl = (s) => {
   try {
@@ -72,10 +73,11 @@ var argv = require("yargs/yargs")(process.argv.slice(2))
   .alias("o", "output")
   .describe(
     "o",
-    "The output file. Will be a single yaml document containing all rules."
+    "The output without file extensions."
   )
   .demandOption(["i", "o"])
-  .usage("Usage: $0 -i [input_file] -o [output_file]").argv;
+  .usage("Usage: $0 -i [input_file] -o [output]").argv;
+
 
 var content = new Object({
   extends: new Array(),
@@ -83,21 +85,19 @@ var content = new Object({
   functions: new Set(),
 });
 
-// make filepath if dne
-const outDirectory = path.dirname(argv.output);
-if (!fs.existsSync(outDirectory)) {
-  fs.mkdirSync(outDirectory);
-}
 
-const parentDirectory = path.dirname(argv.input);
-const funcDirectory = path.join(parentDirectory, "functions");
-const outFuncDirectory = path.join(outDirectory, "functions");
+// make buid filepath if dne
+const buildDirectory = path.join(path.dirname(__dirname), "build");
+fs.rmSync(buildDirectory, { recursive: true, force: true })
+fs.mkdirSync(buildDirectory);
 
-const everything = combine(argv.input, content, outDirectory);
+// recursively build ruleset
+const everything = combine(argv.input, content, buildDirectory);
 
-// write ruleset file
+// write ruleset file to build directory
+const outFile = path.join(buildDirectory, argv.output) + ".yaml";
 fs.writeFile(
-  argv.output,
+  outFile,
   YAML.stringify(content, { lineWidth: 0 }),
   function (err) {
     if (err) {
@@ -108,3 +108,25 @@ fs.writeFile(
     }
   }
 );
+
+// make filepath if dne
+const outDirectory = path.join(path.dirname(__dirname), "dist");
+if (!fs.existsSync(outDirectory)) {
+  fs.mkdirSync(outDirectory);
+}
+
+const out = path.join(outDirectory, argv.output) + ".zip";
+var stream = fs.createWriteStream(out);
+var archive = archiver('zip');
+
+stream.on('close', function () {
+  console.log("Ruleset " + argv.output + " written to " + out);
+});
+
+archive.on('error', function (err) {
+  throw err
+});
+
+archive.pipe(stream);
+archive.directory(buildDirectory, false);
+archive.finalize();

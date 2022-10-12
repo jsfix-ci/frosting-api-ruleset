@@ -64,6 +64,19 @@ General Organization:
   - `./rules/ll`
   - Contains all custom rulesets added to this repo in addition to the original forked ruleset.
 
+## Compiling
+Mutli-file rulesets can be compiled down to single yaml files. To do this, use the `/bin/compile.js` script. Standard compilation can be done with `npm run compile`. This command will generate a zipped artifact in the `dist/` directory, which contains a single YAML file containing every rule specified in the ruleset, and a `functions` directory for any and all defined custom functions.
+
+```
+frosting-ruleset.compiled.zip
+  functions/
+    custom-function.js
+    inflection-check.js
+  frosting-ruleset.compiled.yaml
+```
+
+To use the artifact, unzip it and point spectral at the yaml file from the top level of the artifact structure. Ensure the `functions` directory and that top-level yaml file reside in the same directory.
+
 ## Development
 
 ### Naming Conventions

@@ -95,7 +95,7 @@ fs.mkdirSync(buildDirectory);
 const everything = combine(argv.input, content, buildDirectory);
 
 // write ruleset file to build directory
-const outFile = path.join(buildDirectory, argv.output) + ".yaml";
+const outFile = path.join(buildDirectory, "ruleset.yaml");
 fs.writeFile(
   outFile,
   YAML.stringify(content, { lineWidth: 0 }),

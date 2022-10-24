@@ -7,6 +7,7 @@ const path = require("path");
 const URL = require("url").URL;
 const YAML = require("yaml");
 const archiver = require("archiver");
+const execSync = require('child_process').execSync;
 
 const stringIsAValidUrl = (s) => {
   try {
@@ -24,14 +25,6 @@ function combine(filepath, content, outDirectory) {
 
   const raw = fs.readFileSync(filepath, "utf8");
   const ruleset = YAML.parse(raw);
-
-  // check for custom functions subdirectory
-  const funcDirectory = path.join(path.dirname(filepath), "functions");
-  const outFuncDirectory = path.join(outDirectory, "functions");
-  if (fs.existsSync(funcDirectory)) {
-    fs.copySync(funcDirectory, outFuncDirectory, { "overwrite": true });
-    console.log("Wrote custom functions to " + path.join(outDirectory, "functions"));
-  }
 
   for (const [key, value] of Object.entries(ruleset)) {
     if (key === "extends") {
@@ -108,6 +101,11 @@ fs.writeFile(
     }
   }
 );
+
+// compile down custom functions
+console.log("Compiling custom functions...");
+const output = execSync('./node_modules/.bin/webpack', { encoding: 'utf-8' });
+console.log("Custom functions compiled successfully.");
 
 // make filepath if dne
 const outDirectory = path.join(path.dirname(__dirname), "dist");

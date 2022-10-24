@@ -1,19 +1,20 @@
 /*eslint-disable require-unicode-regexp */
 
 'use strict';
-
-const path = require('path');
+var glob = require('glob');
+var path = require('path');
 
 module.exports = {
   target: 'node',
   mode: 'development',
   devtool: 'inline-source-map',
-  entry: {
-    'inflection-check': './rules/ll/functions/inflection-check.js'
-  },
+  entry: glob.sync('./rules/**/*.js*').reduce(function(obj, el){
+    obj[path.parse(el).name] = el;
+    return obj
+ },{}),
   output: {
-    path: __dirname,
-    filename: './functions/[name].js',
+    path: path.resolve(__dirname, 'functions'),
+    filename: '[name].js',
     libraryTarget: 'commonjs-module'
   },
   module: {

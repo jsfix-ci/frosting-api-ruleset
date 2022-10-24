@@ -1,5 +1,6 @@
-/* eslint-disable newline-before-return */
-/* eslint-disable padded-blocks */
+/*eslint-disable newline-before-return */
+/*eslint-disable padded-blocks */
+
 'use strict';
 
 const glob = require('glob');
@@ -15,7 +16,7 @@ module.exports = {
   }, {}),
   output: {
     path: __dirname,
-    filename: './functions/[name].js',
+    filename: './build/functions/[name].js',
     libraryTarget: 'commonjs-module'
   },
   module: {

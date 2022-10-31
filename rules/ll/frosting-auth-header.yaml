@@ -1,0 +1,31 @@
+# Paths - Path Naming Conventions
+# https://leaflink.atlassian.net/wiki/spaces/PLAT/pages/2434302607/Frosting+API+Specification+JSON+API+Profile#%5BPath-Naming-Conventions%5D
+
+# all rules in this file MUST have corresponding tests
+
+rules:
+  auth-header-name:
+    description: "All paths for all upstream Ghoast should include Authentication headers."
+    severity: error
+    given: $.paths..parameters.[name]
+    then:
+      function: pattern
+      functionOptions:
+        match: "Authorization"
+
+  auth-header-schema:
+    description: "The schema of the auth header should be string and matches with the bearer regex format."
+    severity: error
+    given: $.paths..parameters[?(@.name=='Authorization')].schema
+
+    then:
+      field: "pattern"
+      function: pattern
+      functionOptions:
+        match: "^(?i)Bearer (.*)(?-i)"
+
+    then:
+      field: "type"
+      function: pattern
+      functionOptions:
+        match: "string"

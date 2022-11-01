@@ -1,0 +1,29 @@
+# Version Headers convention
+# https://leaflink.atlassian.net/wiki/spaces/PLAT/pages/2481848371/Frosting+Versioning+Strategy
+
+rules:
+  version-header-name:
+    description: "The version header name should match with LeafLink-Version."
+    severity: error
+    given: $.paths..parameters.[name]
+    then:
+      function: pattern
+      functionOptions:
+        match: "/^LeafLink-Version$/"
+
+  version-header-schema:
+    description: "The schema of the version headers should be a date and not required."
+    severity: error
+    given: $.paths..parameters[?(@.name=='LeafLink-Version')].schema
+
+    then:
+      field: "type"
+      function: pattern
+      functionOptions:
+        match: "date"
+
+  version-header-type:
+    severity: error
+    given: $.paths..parameters[?(@.name=='LeafLink-Version')].required
+    then:
+      function: falsy

@@ -1,0 +1,31 @@
+# Authentication headers
+# all rules in this file MUST have corresponding tests
+
+rules:
+  auth-header-name:
+    description: "All paths should include Authentication headers."
+    severity: error
+    given: $.paths..parameters.[name]
+    then:
+      function: pattern
+      functionOptions:
+        match: "/^Authorization$/"
+
+  auth-header-pattern:
+    description: "The schema of the auth header should match the bearer regex format."
+    severity: error
+    given: $.paths..parameters[?(@.name=='Authorization')].schema.pattern
+    then:
+      function: enumeration
+      functionOptions:
+        values:
+          - ^(?i)Bearer (.*)(?-i)
+
+  auth-header-type:
+    description: "The schema of the auth header should be string."
+    severity: error
+    given: $.paths..parameters[?(@.name=='Authorization')].schema.type
+    then:
+      function: pattern
+      functionOptions:
+        match: "string"

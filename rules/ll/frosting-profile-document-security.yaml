@@ -1,0 +1,27 @@
+# Rules for security and permissioning in spec
+# TODO: fill in doc URLs when we have them in confluence
+
+rules:
+  contains-security-type-oidc:
+    description: "All methods must have 'oidc' type security."
+    documentationUrl: "http://ll.com"
+    message: "{{path}} - {{description}}"
+    severity: error
+    given: $.paths..security.*
+    then:
+      field: "@key"
+      function: enumeration
+      functionOptions:
+        values:
+          - oidc
+  contains-one-scope:
+    description: "All methods must have at least one valid scope defined under security."
+    documentationUrl: "http://ll.com"
+    message: "{{path}} - {{description}}"
+    severity: error
+    given: $.paths..security..oidc.*
+    then:
+      field: "@key"
+      function: pattern
+      functionOptions:
+        match: .+[read|write]:.+

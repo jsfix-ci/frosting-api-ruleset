@@ -3,3 +3,4 @@
 /tmp
 jsconfig.json
 *.local.yaml
+.DS_Store

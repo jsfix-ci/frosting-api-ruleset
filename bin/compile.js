@@ -2,10 +2,12 @@
 
 "use strict";
 
-const fs = require("fs");
+const fs = require("fs-extra");
 const path = require("path");
 const URL = require("url").URL;
 const YAML = require("yaml");
+const archiver = require("archiver");
+const execSync = require('child_process').execSync;
 
 const stringIsAValidUrl = (s) => {
   try {
@@ -16,7 +18,7 @@ const stringIsAValidUrl = (s) => {
   }
 };
 
-function combine(filepath, content) {
+function combine(filepath, content, outDirectory) {
   const patharray = filepath.split("/");
   const filename = patharray.splice(patharray.length - 1)[0];
   const directory = patharray.join("/");
@@ -36,15 +38,18 @@ function combine(filepath, content) {
           console.log("Adding ruleset source " + extend);
           content["extends"].push(extend);
         } else if (fs.lstatSync(extendPath).isFile()) {
-          combine(extendPath, content);
+          combine(extendPath, content, outDirectory);
         } else {
           console.log("Adding ruleset source " + extend);
           content["extends"].push(extend);
         }
       }
+    } else if (key === "functions") {
+      console.log("Gathering function references from " + filepath);
+      content["functions"] = new Set([...content["functions"], ...value]);
     } else {
       console.log("Gathering rules from " + filepath);
-      content["rules"] = { ...content["rules"], ...value };
+      content["rules"] = { ...content["rules"], ...value};
     }
   }
 
@@ -61,26 +66,31 @@ var argv = require("yargs/yargs")(process.argv.slice(2))
   .alias("o", "output")
   .describe(
     "o",
-    "The output file. Will be a single yaml document containing all rules."
+    "The output without file extensions."
   )
   .demandOption(["i", "o"])
-  .usage("Usage: $0 -i [input_file] -o [output_file]").argv;
+  .usage("Usage: $0 -i [input_file] -o [output]").argv;
+
 
 var content = new Object({
   extends: new Array(),
   rules: new Object(),
+  functions: new Set(),
 });
 
-const everything = combine(argv.input, content);
 
-// make filepath if dne
-const outDirectory = path.dirname(argv.output);
-if (!fs.existsSync(outDirectory)) {
-  fs.mkdirSync(outDirectory);
-}
+// make buid filepath if dne
+const buildDirectory = path.join(path.dirname(__dirname), "build");
+fs.rmSync(buildDirectory, { recursive: true, force: true })
+fs.mkdirSync(buildDirectory);
 
+// recursively build ruleset
+const everything = combine(argv.input, content, buildDirectory);
+
+// write ruleset file to build directory
+const outFile = path.join(buildDirectory, "ruleset.yaml");
 fs.writeFile(
-  argv.output,
+  outFile,
   YAML.stringify(content, { lineWidth: 0 }),
   function (err) {
     if (err) {
@@ -91,3 +101,30 @@ fs.writeFile(
     }
   }
 );
+
+// compile down custom functions
+console.log("Compiling custom functions...");
+const output = execSync('./node_modules/.bin/webpack', { encoding: 'utf-8' });
+console.log("Custom functions compiled successfully.");
+
+// make filepath if dne
+const outDirectory = path.join(path.dirname(__dirname), "dist");
+if (!fs.existsSync(outDirectory)) {
+  fs.mkdirSync(outDirectory);
+}
+
+const out = path.join(outDirectory, argv.output) + ".zip";
+var stream = fs.createWriteStream(out);
+var archive = archiver('zip');
+
+stream.on('close', function () {
+  console.log("Ruleset " + argv.output + " written to " + out);
+});
+
+archive.on('error', function (err) {
+  throw err
+});
+
+archive.pipe(stream);
+archive.directory(buildDirectory, false);
+archive.finalize();

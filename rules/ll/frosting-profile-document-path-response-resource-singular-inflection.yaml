@@ -1,0 +1,15 @@
+functions:
+  - inflection-check
+rules:
+  singular-inflection:
+    description: "Response resource types should be singular."
+    documentationUrl: "https://leaflink.atlassian.net/wiki/spaces/PLAT/pages/2434302607/Frosting+API+Specification+JSON+API+Profile#Resource-Inflections"
+    message: "{{path}} - {{description}} - {{error}}"
+    severity: error
+    given: "$.paths..responses.200.content.['application/vnd.api+json'].schema..properties.data..$ref"
+    resolved: false
+    then:
+      function: "inflection-check"
+      functionOptions:
+        type: "@response-type"
+        plural: false

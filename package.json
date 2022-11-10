@@ -4,8 +4,8 @@
   "description": "spectral rules for json:api",
   "main": "json-ruleset.yaml",
   "scripts": {
-    "compile": "./bin/compile.js -i ./frosting-ruleset.yaml -o ./dist/frosting-ruleset.local.yaml",
-    "compile-ci": "./bin/compile.js -i ./frosting-ruleset.yaml -o ./dist/frosting-ruleset.compiled.yaml",
+    "compile": "./bin/compile.js -i ./frosting-ruleset.yaml -o frosting-ruleset.local && ./bin/compile.js -i ./upstream-ruleset.yaml -o upstream-ruleset.local",
+    "compile-ci": "./bin/compile.js -i ./frosting-ruleset.yaml -o frosting-ruleset.compiled && ./bin/compile.js -i ./upstream-ruleset.yaml -o upstream-ruleset.compiled",
     "fix": "./node_modules/.bin/eslint --fix test/ && ./node_modules/.bin/prettier --write .",
     "test": "./node_modules/.bin/eslint test/ && ./node_modules/.bin/mocha --recursive",
     "lint": "./node_modules/.bin/eslint test/ && ./node_modules/.bin/prettier --check ."
@@ -33,7 +33,7 @@
     "chai": "^4.2.0",
     "eslint": "^7.11.0",
     "eslint-plugin-mocha": "^8.0.0",
-    "husky": "^4.3.0",
+    "husky": "^4.3.8",
     "jsonpath-plus": "^4.0.0",
     "mocha": "^8.2.0"
   },
@@ -41,7 +41,15 @@
     "hooks": {}
   },
   "dependencies": {
+    "@babel/core": "^7.19.6",
+    "@babel/preset-env": "^7.19.4",
+    "archiver": "^5.3.1",
+    "babel-loader": "^8.2.5",
+    "fs-extra": "^10.1.0",
+    "inflection": "^1.13.2",
     "prettier": "^2.7.1",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0",
     "yaml": "^2.1.1",
     "yargs": "^17.5.1"
   }

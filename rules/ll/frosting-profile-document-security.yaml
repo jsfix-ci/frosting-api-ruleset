@@ -6,7 +6,7 @@ rules:
     description: "All methods must have 'oidc' type security."
     documentationUrl: "http://ll.com"
     message: "{{path}} - {{description}}"
-    severity: error
+    severity: warning
     given: $.paths..security.*
     then:
       field: "@key"
@@ -18,7 +18,7 @@ rules:
     description: "All methods must have at least one valid scope defined under security."
     documentationUrl: "http://ll.com"
     message: "{{path}} - {{description}}"
-    severity: error
+    severity: warning
     given: $.paths..security..oidc.*
     then:
       field: "@key"

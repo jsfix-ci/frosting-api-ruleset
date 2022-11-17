@@ -1,0 +1,47 @@
+# Rate Limit Responses convention
+# https://leaflink.atlassian.net/wiki/spaces/PLAT/pages/2491875330/Frosting+Rate+Limiting+Strategy#Outcome
+
+rules:
+  rate-limit--remaining-responses:
+    description: ""
+    severity: error
+    given: $.paths..responses.429.headers.[RateLimit-Limit,RateLimit-Remaining,Retry-After]
+    then:
+      - function: defined
+      - function: schema
+        functionOptions:
+          schema:
+            type: object
+            items:
+              type: integer
+
+  rate-limit-reset-response:
+    description: ""
+    severity: error
+    given: $.paths..responses.429.headers.RateLimit-Reset
+    then:
+      - function: defined
+      - function: schema
+        functionOptions:
+          schema:
+            type: object
+            items:
+              type: string
+      - field: "schema.format"
+        function: enumeration
+        functionOptions:
+          values:
+            - date-time
+
+    rate-limit-policy-response:
+    description: ""
+    severity: error
+    given: $.paths..responses.429.headers.RateLimit-Policy
+    then:
+      - function: defined
+      - function: schema
+        functionOptions:
+          schema:
+            type: object
+            items:
+              type: string

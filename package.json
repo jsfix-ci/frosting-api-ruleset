@@ -46,7 +46,7 @@
     "archiver": "^5.3.1",
     "babel-loader": "^8.2.5",
     "fs-extra": "^10.1.0",
-    "inflection": "^1.13.2",
+    "inflection": "^2.0.0",
     "prettier": "^2.7.1",
     "webpack": "^5.74.0",
     "webpack-cli": "^4.10.0",
